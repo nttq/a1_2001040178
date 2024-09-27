@@ -27,14 +27,7 @@ public class Match implements Comparable<Match>{
 
     @Override
     public int compareTo(Match other) {
-//        if(firstIndex>other.firstIndex){
-//            return 1;
-//        }
-//        if(firstIndex<other.firstIndex){
-//            return -1;
-//        }
-//        return 0;
-       // return  this.getFirstIndex() - other.getFirstIndex();
+
         if(this.getFirstIndex()>other.getFirstIndex()){
             return 1;
         }
