@@ -1,5 +1,6 @@
 package a1_2001040178;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -22,7 +23,7 @@ public class App {
         // docs folder contains: 1.txt, 2.txt... 10.txt
         int loadedDocs = e.loadDocs("docs"); // takes folder name as input
         if (loadedDocs != 10) System.out.println("Word.loadDocs(): incorrect return value (expected: 10)");
-
+        System.out.println(loadedDocs);
         if (Word.createWord("").isKeyword())
             System.out.println("Word.createWord(): empty string ('') should be an invalid word (not a keyword)");
         if (Word.createWord("123456").isKeyword())

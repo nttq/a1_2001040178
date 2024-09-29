@@ -1,7 +1,6 @@
 package a1_2001040178;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -12,13 +11,14 @@ public class Word {
         public Word(){
             this.word = null;
         }
-
         public static Set<String> stopWords = new HashSet<String>();
 
+
+
         public boolean isKeyword(){
-            String regex1 = "[a-zA-Z]{1}";//at least one alphabeta
-            String regex2 = "[0-9]{1}";//no number
-            String regex3 = "\\s";//no space
+            String regex1 = "[a-zA-Z]{1}"; //at least one alphabeta
+            String regex2 = "[0-9]{1}"; //no number
+            String regex3 = "\\s"; //no space
             Pattern pattern = Pattern.compile(regex1);
             Matcher matcher = pattern.matcher(this.word);
             Pattern pattern2 = Pattern.compile(regex2);
@@ -35,7 +35,7 @@ public class Word {
         }
         public String getPrefix(){
             Word thisWord = Word.createWord(this.word);
-            String regex = "^[\"(«<]";// << and ( in the begining of word
+            String regex = "^[\"(«<]";
             String regex3 = "^\'-";
             Pattern pattern3 = Pattern.compile(regex3);
             Matcher matcher3 = pattern3.matcher(this.word);
@@ -52,8 +52,8 @@ public class Word {
         }
         public String getSuffix(){
             Word thisWord = Word.createWord(this.word);
-            String regex1 = "[^a-zA-Z0-9]$";//having non-alphabeta in the end
-            String regex2 = "\'";//having "'"
+            String regex1 = "[^a-zA-Z0-9]$";
+            String regex2 = "\'";
             String regex3 = "^\'";
             Pattern pattern1 = Pattern.compile(regex1);
             Pattern pattern2 = Pattern.compile(regex2);
@@ -120,22 +120,18 @@ public class Word {
         }
 
         public static boolean loadStopWords(String fileName) throws FileNotFoundException {
-            String url = fileName;
             try {
-                FileInputStream fileInputStream = new FileInputStream(url);
-                Scanner scanner = new Scanner(fileInputStream);
-                while (scanner.hasNextLine()) {
-                    stopWords.add(scanner.nextLine());
+                File f = new File(fileName);
+                FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+                String sw;
+                while ((sw = br.readLine()) != null) {
+                    stopWords.add(sw);
                 }
-                scanner.close();
-                fileInputStream.close();
             }catch(Exception e){
                 return false;
             }
             return true;
         }
-
-
-
     }
 
