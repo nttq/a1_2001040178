@@ -5,15 +5,17 @@ import java.util.List;
 public class Result implements Comparable<Result> {
     public Doc d;
     public List<Match> matches;
+
     public Result(Doc d, List<Match> matches){
         this.d =d;
         this.matches = matches;
     }
+
     public List<Match> getMatches(){
         return this.matches;
     }
     public Doc getDoc(){
-        return this.d;
+        return d;
     }
     public int getTotalFrequency(){
         int totalFreq = 0;
@@ -22,6 +24,7 @@ public class Result implements Comparable<Result> {
         }
         return totalFreq;
     }
+
     public double getAverageFirstIndex(){
         double total =0;
         for(Match match : this.matches){
@@ -30,53 +33,47 @@ public class Result implements Comparable<Result> {
         return total/(matches.size());
     }
     public String htmlHighlight(){
-        List<Word> title1 = this.d.getTitle();
-        List<Word> body1 = this.d.getBody();
+        List<Word> t = this.d.getTitle();
+        List<Word> b = this.d.getBody();
         for(Match match: this.matches){
             if(match.getFreq()>0){
-                for(Word word : title1){
-                    if(match.getWord().equals(word)){
-                        title1.set(title1.indexOf(word), Word.createWord(word.getPrefix()+"<u>"+word.getText()+"</u>"+word.getSuffix()));
+                for(Word w : t){
+                    if(match.getWord().equals(w)){
+                        t.set(t.indexOf(w), Word.createWord(w.getPrefix()+"<u>"+w.getText()+"</u>"+w.getSuffix()));
                     }
                 }
-                for(Word word : body1){
-                    if(match.getWord().equals(word)){
-                        body1.set(body1.indexOf(word), Word.createWord(word.getPrefix()+"<b>"+word.getText()+"</b>"+word.getSuffix()));
+                for(Word w : b){
+                    if(match.getWord().equals(w)){
+                        b.set(b.indexOf(w), Word.createWord(w.getPrefix()+"<b>"+w.getText()+"</b>"+w.getSuffix()));
                     }
                 }
             }
         }
         String title="";
-        for(Word word : title1){
+        for(Word word : t){
             title = title + word.toString()+" ";
         }
         String body="";
-        for(Word word : body1){
+        for(Word word : b){
             body = body + word.toString()+" ";
         }
         return "<h3>"+title.trim()+"</h3>"+"<p>"+body.trim()+"</p>";
 
     }
     @Override
-    public int compareTo(Result o){
-        if(this.matches.size()>o.matches.size()){
-            return -1;
-        }
-        if(this.matches.size()<o.matches.size()){
+    public int compareTo(Result o) {
+        if (getMatches().size() > o.getMatches().size()) {
             return 1;
-        }
-        if(this.getTotalFrequency()>o.getTotalFrequency()){
+        } else if (getMatches().size() < o.getMatches().size()) {
             return -1;
+        } else {
+            if (getTotalFrequency() > o.getTotalFrequency()) {
+                return 1;
+            } else if (getTotalFrequency() < o.getTotalFrequency()) {
+                return -1;
+            } else {
+                return Double.compare(o.getAverageFirstIndex(), getAverageFirstIndex());
+            }
         }
-        if(this.getTotalFrequency()<o.getTotalFrequency()){
-            return 1;
-        }
-        if(this.getAverageFirstIndex()>o.getAverageFirstIndex()){
-            return 1;
-        }
-        if(this.getAverageFirstIndex()<o.getAverageFirstIndex()){
-            return -1;
-        }
-        return 0;
     }
 }

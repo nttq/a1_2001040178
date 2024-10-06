@@ -16,25 +16,16 @@ public class Match implements Comparable<Match>{
     public Word getWord() {
         return word;
     }
-
     public int getFreq() {
         return freq;
     }
-
     public int getFirstIndex() {
         return firstIndex;
     }
 
     @Override
-    public int compareTo(Match other) {
-
-        if(this.getFirstIndex()>other.getFirstIndex()){
-            return 1;
-        }
-        if(this.getFirstIndex()<other.getFirstIndex()){
-            return -1;
-        }
-        return 0;
+    public int compareTo(Match o) {
+        return Integer.compare(getFirstIndex(), o.getFirstIndex());
     }
 
 }
